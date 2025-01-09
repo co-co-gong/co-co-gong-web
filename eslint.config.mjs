@@ -21,10 +21,7 @@ const eslintConfig = [
     rules: {
       "react/jsx-uses-react": "off",
       "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        { ignoreRestSiblings: true },
-      ],
+      "@typescript-eslint/no-unused-vars": ["error", { ignoreRestSiblings: true }],
       "@typescript-eslint/no-array-constructor": "error",
       "@typescript-eslint/no-duplicate-enum-values": "error",
       "@typescript-eslint/no-explicit-any": "error",
@@ -130,12 +127,7 @@ const eslintConfig = [
       "import/order": [
         "error",
         {
-          groups: [
-            ["builtin", "external"],
-            ["internal", "parent", "sibling"],
-            ["index", "object", "type"],
-            "unknown",
-          ],
+          groups: [["builtin", "external"], ["internal", "parent", "sibling"], ["index", "object", "type"], "unknown"],
           pathGroups: [
             {
               pattern: "{react,react-dom}",
@@ -161,8 +153,7 @@ const eslintConfig = [
               position: "before",
             },
             {
-              pattern:
-                "{./*.module.scss,../**/*.module.scss,./*.scss,../**/*.scss}",
+              pattern: "{./*.module.scss,../**/*.module.scss,./*.scss,../**/*.scss}",
               group: "unknown",
             },
           ],

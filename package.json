@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "next": "15.1.4",
@@ -27,6 +28,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx": "^0.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "prettier": "^3.4.2",
     "sass": "^1.83.1",
     "sass-embedded": "^1.83.1",
     "typescript": "^5",
