@@ -1,0 +1,189 @@
+@use "sass:map";
+
+$FONT_WEIGHT_MAP: (
+  "black": 900,
+  "bold": 700,
+  "semibold": 600,
+  "medium": 500,
+  "regular": 400,
+  "light": 300,
+  "thin": 100,
+);
+
+@mixin fontDisplay1($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 56px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 72.016px;
+  letter-spacing: -1.786px;
+}
+
+@mixin fontDisplay2($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 52px;
+  letter-spacing: -1.128px;
+}
+
+@mixin fontTitle1($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 48.024px;
+  letter-spacing: -0.972px;
+}
+
+@mixin fontTitle2($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 38.024px;
+  letter-spacing: -0.661px;
+}
+
+@mixin fontTitle3($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 32.016px;
+  letter-spacing: -0.552px;
+}
+
+@mixin fontHeading1($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 30.008px;
+  letter-spacing: -0.427px;
+}
+
+@mixin fontHeading2($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 28px;
+  letter-spacing: -0.24px;
+}
+
+@mixin fontHeadline1($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 26.01px;
+  letter-spacing: -0.004px;
+}
+
+@mixin fontHeadline2($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 24.004px;
+}
+
+@mixin fontBody1Normal($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 24px;
+  letter-spacing: 0.091px;
+}
+
+@mixin fontBody1Reading($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 26px;
+  letter-spacing: 0.091px;
+}
+
+@mixin fontBody2Normal($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 22.005px;
+  letter-spacing: 0.144px;
+}
+
+@mixin fontBody2Reading($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 24px;
+  letter-spacing: 0.144px;
+}
+
+@mixin fontLabel1Normal($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 20.006px;
+  letter-spacing: 0.203px;
+}
+
+@mixin fontLabel1Reading($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 22px;
+  letter-spacing: 0.203px;
+}
+
+@mixin fontLabel2($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 18.005px;
+  letter-spacing: 0.252px;
+}
+
+@mixin fontCaption1($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 16.008px;
+  letter-spacing: 0.302px;
+}
+
+@mixin fontCaption2($fontWeight: "medium") {
+  font-family: SUIT;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: map.get($FONT_WEIGHT_MAP, $fontWeight);
+  line-height: 14.003px;
+  letter-spacing: 0.342px;
+}
+
+@mixin makeEllipsis($line-cnt: 1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @if $line-cnt == 1 {
+    white-space: nowrap;
+  }
+
+  @if $line-cnt > 1 {
+    display: -webkit-box;
+    -webkit-line-clamp: $line-cnt;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    white-space: break-spaces;
+  }
+}
