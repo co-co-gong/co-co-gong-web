@@ -140,16 +140,28 @@ const eslintConfig = [
               position: "before",
             },
             {
-              pattern: "@/**",
+              pattern: "{@/pages/**,@/pages}",
               group: "internal",
+              position: "before",
             },
             {
-              pattern: "src/**",
+              pattern: "{@/widgets/**,@/widgets}",
               group: "internal",
+              position: "before",
             },
             {
-              pattern: "{public/**,public/**/*}",
-              group: "index",
+              pattern: "{@/features/**,@/features}",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "{@/entities/**,@/entities}",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "{@/shared/**,@/shared}",
+              group: "internal",
               position: "before",
             },
             {
