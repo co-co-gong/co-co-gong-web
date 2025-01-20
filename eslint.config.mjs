@@ -124,6 +124,33 @@ const eslintConfig = [
           allowSeparatedGroups: true,
         },
       ],
+      "import/no-restricted-paths": [
+        "error",
+        {
+          zones: [
+            {
+              target: "./src/pages",
+              from: "./src/app",
+            },
+            {
+              target: "./src/widgets",
+              from: ["./src/app", "./src/pages"],
+            },
+            {
+              target: "./src/features",
+              from: ["./src/app", "./src/pages", "./src/widgets"],
+            },
+            {
+              target: "./src/entities",
+              from: ["./src/app", "./src/pages", "./src/widgets"],
+            },
+            {
+              target: "./src/shared",
+              from: ["./src/app", "./src/pages", "./src/widgets"],
+            },
+          ],
+        },
+      ],
       "import/order": [
         "error",
         {
@@ -137,6 +164,11 @@ const eslintConfig = [
             {
               pattern: "{next,next/**}",
               group: "external",
+              position: "before",
+            },
+            {
+              pattern: "{@/app/**,@/app}",
+              group: "internal",
               position: "before",
             },
             {
