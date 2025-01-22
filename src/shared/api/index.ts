@@ -1,4 +1,4 @@
 export type * from "./common.interface";
 
-export { apiClient } from "./apiClient";
-export { queryClient } from "./queryClient";
+export { apiClient, getKyHTTPError, isKyError } from "./apiClient";
+export { apiServer } from "./apiServer";

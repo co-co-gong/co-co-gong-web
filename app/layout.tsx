@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 
 import { QueryProvider } from "@/app/providers";
-
-import { SUIT } from "./fontFace";
+import { SUIT } from "@/app/ui";
 
 import "@/app/ui/styles/global.scss";
 
