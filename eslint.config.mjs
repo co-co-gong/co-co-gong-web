@@ -124,6 +124,33 @@ const eslintConfig = [
           allowSeparatedGroups: true,
         },
       ],
+      "import/no-restricted-paths": [
+        "error",
+        {
+          zones: [
+            {
+              target: "./src/pages",
+              from: "./src/app",
+            },
+            {
+              target: "./src/widgets",
+              from: ["./src/app", "./src/pages"],
+            },
+            {
+              target: "./src/features",
+              from: ["./src/app", "./src/pages", "./src/widgets"],
+            },
+            {
+              target: "./src/entities",
+              from: ["./src/app", "./src/pages", "./src/widgets"],
+            },
+            {
+              target: "./src/shared",
+              from: ["./src/app", "./src/pages", "./src/widgets"],
+            },
+          ],
+        },
+      ],
       "import/order": [
         "error",
         {
@@ -140,16 +167,33 @@ const eslintConfig = [
               position: "before",
             },
             {
-              pattern: "@/**",
+              pattern: "{@/app/**,@/app}",
               group: "internal",
+              position: "before",
             },
             {
-              pattern: "src/**",
+              pattern: "{@/pages/**,@/pages}",
               group: "internal",
+              position: "before",
             },
             {
-              pattern: "{public/**,public/**/*}",
-              group: "index",
+              pattern: "{@/widgets/**,@/widgets}",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "{@/features/**,@/features}",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "{@/entities/**,@/entities}",
+              group: "internal",
+              position: "before",
+            },
+            {
+              pattern: "{@/shared/**,@/shared}",
+              group: "internal",
               position: "before",
             },
             {
