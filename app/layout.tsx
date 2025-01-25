@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import { QueryProvider } from "@/app/providers";
 import { SUIT } from "@/app/ui";
-import { InjectBodyVhProvider } from "@/app/ui/Layout";
 
 import { DvhHeightLayout } from "@/shared/ui/Layout";
 
@@ -21,11 +20,9 @@ export default function AppLayout({
     <html lang="ko">
       <body className={SUIT.className}>
         <QueryProvider>
-          <InjectBodyVhProvider>
-            <DvhHeightLayout dvh={100} heightType="minHeight">
-              {children}
-            </DvhHeightLayout>
-          </InjectBodyVhProvider>
+          <DvhHeightLayout dvh={100} heightType="minHeight">
+            {children}
+          </DvhHeightLayout>
         </QueryProvider>
       </body>
     </html>
