@@ -21,6 +21,10 @@ button {
   -webkit-font-smoothing: antialiased;
 }
 
+body {
+  position: relative;
+}
+
 button {
   cursor: pointer;
   user-select: none;
