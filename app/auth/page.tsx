@@ -1,5 +1,1 @@
-const AuthPage: React.FC = () => {
-  return <>auth page</>;
-};
-
-export default AuthPage;
+export { default } from "@/views/auth/ui";

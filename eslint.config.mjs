@@ -129,24 +129,24 @@ const eslintConfig = [
         {
           zones: [
             {
-              target: "./src/pages",
+              target: "./src/views",
               from: "./src/app",
             },
             {
               target: "./src/widgets",
-              from: ["./src/app", "./src/pages"],
+              from: ["./src/app", "./src/views"],
             },
             {
               target: "./src/features",
-              from: ["./src/app", "./src/pages", "./src/widgets"],
+              from: ["./src/app", "./src/views", "./src/widgets"],
             },
             {
               target: "./src/entities",
-              from: ["./src/app", "./src/pages", "./src/widgets"],
+              from: ["./src/app", "./src/views", "./src/widgets"],
             },
             {
               target: "./src/shared",
-              from: ["./src/app", "./src/pages", "./src/widgets"],
+              from: ["./src/app", "./src/views", "./src/widgets"],
             },
           ],
         },
@@ -172,7 +172,7 @@ const eslintConfig = [
               position: "before",
             },
             {
-              pattern: "{@/pages/**,@/pages}",
+              pattern: "{@/views/**,@/views}",
               group: "internal",
               position: "before",
             },
