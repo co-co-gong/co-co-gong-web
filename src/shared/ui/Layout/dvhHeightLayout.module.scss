@@ -1,0 +1,18 @@
+@use "@/shared/ui/styles/constants" as c;
+@use "@/shared/ui/styles/mixins" as m;
+
+.wrapper {
+  width: 100%;
+
+  &.height {
+    height: calc(var(--dvh) * var(--vh));
+  }
+
+  &.minHeight {
+    min-height: calc(var(--dvh) * var(--vh));
+  }
+
+  &.maxHeight {
+    max-height: calc(var(--dvh) * var(--vh));
+  }
+}
