@@ -1,18 +1,32 @@
+/* stylelint-disable selector-class-pattern */
 @use "@/shared/ui/styles/constants" as c;
 @use "@/shared/ui/styles/mixins" as m;
 
 .wrapper {
+  position: relative;
   width: 100%;
 
   &.height {
-    height: calc(var(--dvh) * var(--vh));
+    height: calc(var(--dvh) * 1vh);
+
+    @supports (min-height: 100dvh) {
+      height: calc(var(--dvh) * 1dvh);
+    }
   }
 
-  &.minHeight {
-    min-height: calc(var(--dvh) * var(--vh));
+  &.min-height {
+    min-height: calc(var(--dvh) * 1vh);
+
+    @supports (min-height: 100dvh) {
+      min-height: calc(var(--dvh) * 1dvh);
+    }
   }
 
-  &.maxHeight {
-    max-height: calc(var(--dvh) * var(--vh));
+  &.max-height {
+    max-height: calc(var(--dvh) * 1vh);
+
+    @supports (min-height: 100dvh) {
+      max-height: calc(var(--dvh) * 1dvh);
+    }
   }
 }

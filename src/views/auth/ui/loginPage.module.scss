@@ -1,0 +1,33 @@
+@use "@/shared/ui/styles/constants" as c;
+@use "@/shared/ui/styles/mixins" as m;
+
+.wrapper {
+  @include m.flex;
+  width: 100%;
+  height: 100%;
+
+  .loginForm {
+    @include m.flex(flex-start, center, column);
+    gap: 40px;
+    padding: 40px 100px;
+    margin: auto;
+    background-color: var(--c-ui-white);
+    border-radius: 12px;
+    box-shadow: 12px 12px 15px 2px rgba(0, 0, 0, 25%);
+
+    .textWrapper {
+      @include m.flex(flex-start, center, column);
+      gap: 8px;
+
+      .title {
+        @include m.fontHeading1("bold");
+        color: var(--c-ui-black);
+      }
+
+      .description {
+        @include m.fontBody1("medium");
+        color: var(--c-ui-gray-25);
+      }
+    }
+  }
+}
