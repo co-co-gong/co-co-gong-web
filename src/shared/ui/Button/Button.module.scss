@@ -25,4 +25,33 @@
       box-shadow: none;
     }
   }
+
+  &.secondary {
+    color: var(--c-ui-blue);
+    border: 1px solid var(--c-ui-blue);
+    border-radius: 4px;
+
+    &:disabled {
+      color: var(--c-ui-gray-75);
+      border-color: var(--c-ui-gray-75);
+    }
+  }
+
+  &.outlined {
+    color: var(--c-ui-black);
+    border: 1px solid var(--c-ui-gray-75);
+
+    &:disabled {
+      color: var(--c-ui-gray-75);
+    }
+  }
+
+  &.text {
+    padding: 0;
+    color: var(--c-ui-blue);
+
+    &:disabled {
+      color: var(--c-ui-gray-75);
+    }
+  }
 }

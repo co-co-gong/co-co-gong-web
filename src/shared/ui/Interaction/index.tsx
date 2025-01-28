@@ -1,6 +1,6 @@
 import cx from "clsx";
 
-import styles from "./interaction.module.scss";
+import styles from "./Interaction.module.scss";
 
 type Variant = "normal" | "light" | "strong";
 

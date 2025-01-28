@@ -6,9 +6,9 @@ import cx from "clsx";
 
 import Interaction from "@/shared/ui/Interaction";
 
-import styles from "./button.module.scss";
+import styles from "./Button.module.scss";
 
-type ButtonType = "primary" | "secondary" | "outlined";
+type ButtonType = "primary" | "secondary" | "outlined" | "text";
 
 interface Props extends ComponentProps<"button"> {
   buttonType: ButtonType;
