@@ -29,5 +29,10 @@
         color: var(--c-ui-gray-25);
       }
     }
+
+    .loginButton {
+      @include m.flex;
+      gap: 8px;
+    }
   }
 }
