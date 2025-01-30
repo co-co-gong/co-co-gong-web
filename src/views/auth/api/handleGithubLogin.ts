@@ -1,8 +1,6 @@
 import type { TokenDTO } from "@/shared/api/auth/auth.interface";
+import { routeHandlerApi } from "@/shared/api/routeHandlerApi";
 
 export const handleGithubLogin = async ({ accessToken, refreshToken }: TokenDTO) => {
-  const params = new URLSearchParams({ accessToken, refreshToken });
-  return await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/auth/github/callback?${params.toString()}`, {
-    method: "POST",
-  });
+  return await routeHandlerApi.post("/api/auth/github/callback", { params: { accessToken, refreshToken } });
 };
