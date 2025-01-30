@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-
 import { Button } from "@/shared/ui/Button";
 import { DvhHeightLayout } from "@/shared/ui/Layout";
 
