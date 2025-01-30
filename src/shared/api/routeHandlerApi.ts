@@ -1,30 +1,30 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 
+import type { BaseFetchApi, GetOptions, MutateOptions } from "@/shared/api/api.interface";
 import { DEFAULT_REVALIDATE } from "@/shared/constants/api";
 import { getSearchParams } from "@/shared/lib";
 
-import type { BaseFetchApi, GetOptions, MutateOptions } from "./api.interface";
-
-class ApiServer implements BaseFetchApi {
-  private static instance: ApiServer;
+class RouteHandlerApi implements BaseFetchApi {
+  private static instance: RouteHandlerApi;
 
   private constructor() {}
 
   static getInstance() {
-    if (!ApiServer.instance) {
-      ApiServer.instance = new ApiServer();
+    if (!RouteHandlerApi.instance) {
+      RouteHandlerApi.instance = new RouteHandlerApi();
     }
-    return ApiServer.instance;
+    return RouteHandlerApi.instance;
   }
 
   async get<T>(url: string, options?: GetOptions) {
     const params = getSearchParams(options?.params, true);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${params}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}${url}${params}`, {
       next: {
         revalidate:
           typeof options?.revalidate === "number" || options?.revalidate === false
             ? options.revalidate
             : DEFAULT_REVALIDATE,
+        tags: options?.tags,
       },
       cache: options?.cache,
       headers: {
@@ -54,7 +54,7 @@ class ApiServer implements BaseFetchApi {
 
   private async mutate<T>(method: string, url: string, options?: MutateOptions) {
     const params = getSearchParams(options?.params, true);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${params}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}${url}${params}`, {
       method,
       body: JSON.stringify(options?.body),
       headers: {
@@ -70,4 +70,4 @@ class ApiServer implements BaseFetchApi {
   }
 }
 
-export const apiServer = ApiServer.getInstance();
+export const routeHandlerApi = RouteHandlerApi.getInstance();

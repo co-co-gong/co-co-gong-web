@@ -15,5 +15,5 @@ export async function POST(req: NextRequest) {
 
   revalidateTag("users");
 
-  return NextResponse.json({});
+  return NextResponse.json({ accessToken, refreshToken });
 }

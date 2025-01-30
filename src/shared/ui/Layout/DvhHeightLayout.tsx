@@ -1,12 +1,10 @@
 "use client";
 
-import { type ReactNode, useRef } from "react";
+import { type ReactNode, useLayoutEffect, useRef } from "react";
 
 import assert from "assert";
 import cx from "clsx";
 import { useWindowSize } from "react-use";
-
-import { useIsomorphicLayoutEffect } from "@/shared/hooks";
 
 import styles from "./dvhHeightLayout.module.scss";
 
@@ -27,14 +25,14 @@ const DvhHeightLayout: React.FC<Props> = ({ dvh, children, heightType, className
 
   const ref = useRef<HTMLDivElement>(null);
 
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) return;
 
     const $ref = ref.current;
     if (!CSS.supports("min-height", "100dvh")) {
       $ref.style[heightType] = `${(height * dvh) / 100}px`;
     }
-  }, []);
+  }, [dvh, height, heightType]);
 
   return (
     <div className={cx(styles.wrapper, styles[heightType], className)} ref={ref} style={style}>
