@@ -1,6 +1,7 @@
 import path from "path";
 
-const getFiles = (filenames) => filenames.map((f) => path.relative(process.cwd(), f));
+const getFiles = (filenames) =>
+  filenames.map((f) => path.relative(process.cwd(), f)).map((f) => f.replace(/\(/g, "\\(").replace(/\)/g, "\\)"));
 
 export default {
   "*.{ts,tsx}": (filenames) => [
