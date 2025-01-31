@@ -1,13 +1,26 @@
 import type { TokenDTO } from "@/shared/api/auth";
 
-export interface GetOptions {
+interface DefaultGetOptions {
   params?: Record<string, string>;
-  revalidate?: number;
   tags?: string[];
-  cache?: RequestCache;
   _tokens?: TokenDTO;
   headers?: HeadersInit;
 }
+
+interface RevalidateWithNoStore extends DefaultGetOptions {
+  cache: "no-store";
+}
+
+interface RevalidateWithoutForceCache extends DefaultGetOptions {
+  cache: "force-cache";
+  revalidate?: number | boolean;
+}
+
+interface RevalidateWithDefault extends DefaultGetOptions {
+  cache: "default";
+}
+
+export type GetOptions = RevalidateWithNoStore | RevalidateWithoutForceCache | RevalidateWithDefault;
 
 export interface RevalidatePathOptions {
   path: string;

@@ -12,10 +12,7 @@ export abstract class BaseServerApi implements BaseFetchApi {
     const params = getSearchParams(options?.params, true);
     const response = await fetch(`${this.baseUrl}${url}${params}`, {
       next: {
-        revalidate:
-          typeof options?.revalidate === "number" || options?.revalidate === false
-            ? options.revalidate
-            : DEFAULT_REVALIDATE,
+        revalidate: this.getNextRevalidate(options),
         tags: options?.tags,
       },
       cache: options?.cache,
@@ -61,5 +58,12 @@ export abstract class BaseServerApi implements BaseFetchApi {
 
     const data = (await response.json()) as T;
     return data;
+  }
+
+  protected getNextRevalidate(options?: GetOptions) {
+    if (options?.cache === "no-store" || options?.cache === "default") return undefined;
+    return typeof options?.revalidate === "number" || options?.revalidate === false
+      ? options.revalidate
+      : DEFAULT_REVALIDATE;
   }
 }
