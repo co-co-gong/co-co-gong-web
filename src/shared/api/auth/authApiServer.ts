@@ -1,7 +1,6 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 
-import { DEFAULT_REVALIDATE } from "@/shared/constants/api";
 import { SERVER_AUTH_ERROR } from "@/shared/constants/auth";
 import { getSearchParams } from "@/shared/lib";
 import { getAccessToken, getRefreshToken, getTokens } from "@/shared/lib/auth";
@@ -38,10 +37,7 @@ class AuthApiServer extends BaseServerApi {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${params}`, {
         next: {
-          revalidate:
-            typeof options?.revalidate === "number" || options?.revalidate === false
-              ? options.revalidate
-              : DEFAULT_REVALIDATE,
+          revalidate: this.getNextRevalidate(options),
           tags: options?.tags,
         },
         cache: options?.cache,
@@ -59,7 +55,7 @@ class AuthApiServer extends BaseServerApi {
     } catch {
       return await this.refreshTokens({ accessToken, refreshToken }, async ({ accessToken, refreshToken }) => {
         return await this.get<T>(url, {
-          ...options,
+          ...(options as GetOptions),
           _tokens: { accessToken, refreshToken },
         });
       });
