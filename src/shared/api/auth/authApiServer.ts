@@ -1,21 +1,25 @@
 import { revalidatePath, revalidateTag } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 
-import { TokenDTO } from "@/shared/api/auth/auth.interface";
 import { DEFAULT_REVALIDATE } from "@/shared/constants/api";
 import { SERVER_AUTH_ERROR } from "@/shared/constants/auth";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/shared/constants/storage";
 import { getSearchParams } from "@/shared/lib";
+import { getAccessToken, getRefreshToken, getTokens } from "@/shared/lib/auth";
 
-import type { BaseFetchApi, GetOptions, MutateOptions } from "../api.interface";
+import { BaseServerApi } from "../baseServerApi";
+
+import type { GetOptions, MutateOptions } from "../api.interface";
+import type { TokenDTO } from "./auth.interface";
 
 // NOTE: _tokens를 사용해야 하는 이유,
 // NOTE: refresh api의 경우 route handler / server actions에서 처리해야하는 이유
 // NOTE: refresh api 호출 시 headers를 넘겨야 하는 이유
-class AuthApiServer implements BaseFetchApi {
+class AuthApiServer extends BaseServerApi {
   private static instance: AuthApiServer;
 
-  private constructor() {}
+  private constructor() {
+    super(process.env.NEXT_PUBLIC_API_URL!);
+  }
 
   static getInstance() {
     if (!AuthApiServer.instance) {
@@ -26,9 +30,10 @@ class AuthApiServer implements BaseFetchApi {
 
   async get<T>(url: string, options?: GetOptions): Promise<T> {
     const params = getSearchParams(options?.params, true);
-    const cookieStore = await cookies();
-    const accessToken = options?._tokens?.accessToken || cookieStore.get(ACCESS_TOKEN_KEY)?.value;
-    const refreshToken = options?._tokens?.accessToken || cookieStore.get(REFRESH_TOKEN_KEY)?.value;
+    const accessToken = options?._tokens?.accessToken || (await getAccessToken());
+    const refreshToken = options?._tokens?.accessToken || (await getRefreshToken());
+
+    if (!accessToken || !refreshToken) return SERVER_AUTH_ERROR as T;
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${params}`, {
@@ -43,49 +48,29 @@ class AuthApiServer implements BaseFetchApi {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
+          ...options?.headers,
         },
       });
 
       if (!response.ok) throw new Error();
+
       const data = (await response.json()) as T;
       return data;
     } catch {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/auth/refresh`, {
-        method: "POST",
-        body: JSON.stringify({ accessToken, refreshToken }),
-        headers: await headers(),
-      });
-      if (response.ok) {
-        const { accessToken, refreshToken } = (await response.json()) as TokenDTO;
-        return this.get<T>(url, {
+      return await this.refreshTokens({ accessToken, refreshToken }, async ({ accessToken, refreshToken }) => {
+        return await this.get<T>(url, {
           ...options,
           _tokens: { accessToken, refreshToken },
         });
-      }
-      return SERVER_AUTH_ERROR as T;
+      });
     }
   }
 
-  async post<T>(url: string, options?: MutateOptions) {
-    return this.mutate<T>("POST", url, options);
-  }
-
-  async put<T>(url: string, options?: MutateOptions) {
-    return this.mutate<T>("PUT", url, options);
-  }
-
-  async patch<T>(url: string, options?: MutateOptions) {
-    return this.mutate<T>("PATCH", url, options);
-  }
-
-  async delete<T>(url: string, options?: MutateOptions) {
-    return this.mutate<T>("DELETE", url, options);
-  }
-
-  private async mutate<T>(method: string, url: string, options?: MutateOptions): Promise<T> {
+  async mutate<T>(method: string, url: string, options?: MutateOptions): Promise<T> {
     const params = getSearchParams(options?.params, true);
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get(ACCESS_TOKEN_KEY)?.value;
+    const { accessToken, refreshToken } = await getTokens();
+
+    if (!accessToken || !refreshToken) return SERVER_AUTH_ERROR as T;
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}${params}`, {
@@ -94,6 +79,7 @@ class AuthApiServer implements BaseFetchApi {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
+          ...options?.headers,
         },
       });
 
@@ -105,14 +91,30 @@ class AuthApiServer implements BaseFetchApi {
       const data = (await response.json()) as T;
       return data;
     } catch {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/auth/refresh`, {
-        method: "POST",
-        credentials: "include",
+      return await this.refreshTokens({ accessToken, refreshToken }, async ({ accessToken, refreshToken }) => {
+        return await this.mutate<T>(method, url, {
+          ...options,
+          _tokens: { accessToken, refreshToken },
+        });
       });
-      if (response.ok) return this.get<T>(url, options);
-
-      return SERVER_AUTH_ERROR as T;
     }
+  }
+
+  private async refreshTokens<T>(
+    tokens: Partial<TokenDTO>,
+    callback: (tokens: TokenDTO) => T | Promise<T>,
+  ): Promise<T> {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/auth/refresh`, {
+      method: "POST",
+      body: JSON.stringify(tokens),
+      headers: await headers(),
+    });
+
+    if (response.ok) {
+      const { accessToken, refreshToken } = (await response.json()) as TokenDTO;
+      return await callback({ accessToken, refreshToken });
+    }
+    return SERVER_AUTH_ERROR as T;
   }
 }
 

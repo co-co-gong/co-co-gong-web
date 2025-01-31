@@ -6,6 +6,7 @@ export interface GetOptions {
   tags?: string[];
   cache?: RequestCache;
   _tokens?: TokenDTO;
+  headers?: HeadersInit;
 }
 
 export interface RevalidatePathOptions {
@@ -16,6 +17,8 @@ export interface RevalidatePathOptions {
 export interface MutateOptions {
   params?: Record<string, string>;
   body?: unknown;
+  headers?: HeadersInit;
+  _tokens?: TokenDTO;
   revalidateTags?: string[];
   revalidatePath?: RevalidatePathOptions[];
 }
