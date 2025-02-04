@@ -1,1 +1,0 @@
-export { handleGithubLogin } from "./handleGithubLogin";

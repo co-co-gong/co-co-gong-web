@@ -10,9 +10,6 @@ import { BaseServerApi } from "../baseServerApi";
 import type { GetOptions, MutateOptions } from "../api.interface";
 import type { TokenDTO } from "./auth.interface";
 
-// NOTE: _tokens를 사용해야 하는 이유,
-// NOTE: refresh api의 경우 route handler / server actions에서 처리해야하는 이유
-// NOTE: refresh api 호출 시 headers를 넘겨야 하는 이유
 class AuthApiServer extends BaseServerApi {
   private static instance: AuthApiServer;
 

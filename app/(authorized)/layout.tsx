@@ -2,8 +2,7 @@ import { PropsWithChildren } from "react";
 
 import { AuthorizedHandler } from "@/app/handlers";
 
-// MEMO: check authorized using getMeApi
-const AuthorizedLayout: React.FC<PropsWithChildren> = ({ children }) => {
+const AuthorizedLayout: React.FC<PropsWithChildren> = async ({ children }) => {
   return <AuthorizedHandler>{children}</AuthorizedHandler>;
 };
 
