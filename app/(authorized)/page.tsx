@@ -1,6 +1,6 @@
-import { Suspense } from "react";
-
 import { getMeApi } from "@/entities/user/api";
+
+import SSRSafeSuspense from "@/shared/hooks/SSRSafeSuspense";
 
 import Test from "app/(authorized)/test";
 
@@ -11,9 +11,9 @@ const Home: React.FC = async () => {
     <>
       SERVER GET ME: {data.email} {data.username}
       <br />
-      <Suspense fallback={<div>Loading...</div>}>
+      <SSRSafeSuspense fallback={<div>Loading...</div>}>
         <Test />
-      </Suspense>
+      </SSRSafeSuspense>
     </>
   );
 };

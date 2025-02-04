@@ -1,2 +1,2 @@
 export * from "./serverToken";
-export * from "./clientToken";
+export * from "./token";

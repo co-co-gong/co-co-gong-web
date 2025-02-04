@@ -1,23 +1,15 @@
-import ky from "ky";
-
+import { getTokensApi, refreshApi, removeTokensApi, setTokensApi } from "@/shared/api/auth/auth.route-handler";
 import { UNAUTHORIZED_STATUS } from "@/shared/constants/auth";
-import { getClientAccessToken, getClientTokens, removeClientTokens, setClientTokens } from "@/shared/lib/auth";
 
 import { apiClient, isKyHTTPError } from "../apiClient";
-
-import type { TokenDTO } from "./auth.interface";
 
 export const authApiClient = apiClient.extend({
   hooks: {
     beforeRequest: [
       async (request) => {
-        const abortController = new AbortController();
-
-        const accessToken = getClientAccessToken();
-        if (!accessToken) abortController.abort();
-        else request.headers.set("Authorization", `Bearer ${accessToken}`);
-
-        return new Request(request, { signal: abortController.signal });
+        const { accessToken } = await getTokensApi();
+        request.headers.set("Authorization", `Bearer ${accessToken}`);
+        return request;
       },
     ],
     beforeError: [
@@ -27,20 +19,16 @@ export const authApiClient = apiClient.extend({
         if (status !== UNAUTHORIZED_STATUS) return error;
 
         try {
-          const { accessToken, refreshToken } = getClientTokens();
+          const { accessToken, refreshToken } = await getTokensApi();
           if (!accessToken || !refreshToken) throw new Error();
 
-          const { accessToken: newAccessToken, refreshToken: newRefreshToken } = await ky
-            .post<TokenDTO>(`${process.env.NEXT_PUBLIC_API_URL}/refresh`, {
-              json: { accessToken, refreshToken },
-            })
-            .json();
+          const newTokens = await refreshApi({ accessToken, refreshToken });
 
-          setClientTokens({ accessToken: newAccessToken, refreshToken: newRefreshToken });
-          error.request.headers.set("Authorization", `Bearer ${newAccessToken}`);
+          await setTokensApi(newTokens);
+          error.request.headers.set("Authorization", `Bearer ${newTokens.accessToken}`);
           void (await authApiClient(error.request));
         } catch {
-          removeClientTokens();
+          await removeTokensApi();
         }
 
         return error;

@@ -1,4 +1,3 @@
-import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { setServerTokens } from "@/shared/lib/auth";
@@ -9,8 +8,6 @@ export async function POST(req: NextRequest) {
   if (!accessToken || !refreshToken) return NextResponse.error();
 
   await setServerTokens({ accessToken, refreshToken });
-
-  revalidateTag("users");
 
   return NextResponse.json({ accessToken, refreshToken });
 }

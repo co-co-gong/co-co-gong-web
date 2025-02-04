@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { ApiResponseDTO, apiServer } from "@/shared/api";
 import type { TokenDTO } from "@/shared/api/auth";
 import { isFetchError } from "@/shared/lib";
-import { getServerTokens, removeServerTokens, setServerTokens } from "@/shared/lib/auth";
+import { removeServerTokens, setServerTokens } from "@/shared/lib/auth";
 
-export async function POST() {
-  const { accessToken, refreshToken } = await getServerTokens();
+export async function POST(request: NextRequest) {
+  const { accessToken, refreshToken } = (await request.json()) as TokenDTO;
 
   if (!refreshToken || !accessToken) return NextResponse.error();
 
