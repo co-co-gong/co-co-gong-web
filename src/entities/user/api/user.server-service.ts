@@ -1,7 +1,7 @@
 import type { GetUserOutDTO } from "@/entities/user/api/user.interface";
 
 import { type ApiResponseDTO } from "@/shared/api";
-import { authApiServer } from "@/shared/api/auth";
+import { authApiServer } from "@/shared/api/auth/authApiServer";
 
 /** 자기 정보 얻기 */
 export const getMeApi = () =>

@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 import { ApiResponseDTO, apiServer } from "@/shared/api";
 import type { TokenDTO } from "@/shared/api/auth";
 import { isFetchError } from "@/shared/lib";
-import { getTokens, removeTokens, setTokens } from "@/shared/lib/auth";
+import { getServerTokens, removeServerTokens, setServerTokens } from "@/shared/lib/auth";
 
 export async function POST() {
-  const { accessToken, refreshToken } = await getTokens();
+  const { accessToken, refreshToken } = await getServerTokens();
 
   if (!refreshToken || !accessToken) return NextResponse.error();
 
@@ -15,12 +15,12 @@ export async function POST() {
   });
 
   if (isFetchError(response)) {
-    await removeTokens();
+    await removeServerTokens();
     return NextResponse.error();
   }
 
   const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data;
-  await setTokens({ accessToken: newAccessToken, refreshToken: newRefreshToken });
+  await setServerTokens({ accessToken: newAccessToken, refreshToken: newRefreshToken });
 
   return NextResponse.json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
 }

@@ -7,7 +7,7 @@ export const apiClient = ky.create({
   retry: 0,
 });
 
-export const isKyError = (error: unknown): error is HTTPError<ErrorDTO> => {
+export const isKyHTTPError = (error: unknown): error is HTTPError<ErrorDTO> => {
   return error instanceof HTTPError;
 };
 
