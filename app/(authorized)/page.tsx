@@ -1,6 +1,6 @@
 import { getMeApi } from "@/entities/user/api";
 
-import SSRSafeSuspense from "@/shared/hooks/SSRSafeSuspense";
+import { SSRSafeSuspense } from "@/shared/ui/SSRSafeSuspense";
 
 import Test from "app/(authorized)/test";
 

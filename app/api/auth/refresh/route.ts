@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ApiResponseDTO, apiServer } from "@/shared/api";
 import type { TokenDTO } from "@/shared/api/auth";
 import { isFetchError } from "@/shared/lib";
-import { removeServerTokens, setServerTokens } from "@/shared/lib/auth";
+import { removeServerTokens, setServerTokens } from "@/shared/models/auth";
 
 export async function POST(request: NextRequest) {
   const { accessToken, refreshToken } = (await request.json()) as TokenDTO;

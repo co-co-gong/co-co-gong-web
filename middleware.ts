@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 import { ApiResponseDTO, apiServer } from "@/shared/api";
 import { TokenDTO } from "@/shared/api/auth";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/shared/constants/storage";
 import { isFetchError } from "@/shared/lib";
-import { getServerTokens, isValidToken, removeServerTokens, setServerTokens } from "@/shared/lib/auth";
+import { isValidToken } from "@/shared/lib/auth";
+import { getServerTokens, removeServerTokens, setServerTokens } from "@/shared/models/auth";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -36,7 +36,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth", request.url));
     }
 
-    if (!isAccessTokenValid) {
+    if (isAccessTokenValid) {
       const response = await apiServer.post<ApiResponseDTO<TokenDTO>>("/refresh", {
         body: { accessToken, refreshToken },
       });
@@ -48,17 +48,7 @@ export async function middleware(request: NextRequest) {
 
       await setServerTokens(response.data);
 
-      const res = NextResponse.next();
-      const reqCookies = request.cookies.getAll();
-
-      res.cookies.set(ACCESS_TOKEN_KEY, response.data.accessToken);
-      res.cookies.set(REFRESH_TOKEN_KEY, response.data.refreshToken);
-
-      reqCookies.forEach((cookie) => {
-        res.cookies.set(cookie.name, cookie.value);
-      });
-
-      return res;
+      return NextResponse.next();
     }
   } catch {
     await removeServerTokens();

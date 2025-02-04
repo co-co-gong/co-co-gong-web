@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { setServerTokens } from "@/shared/lib/auth";
+import { setServerTokens } from "@/shared/models/auth";
 
 export async function POST(req: NextRequest) {
   const searchParams = new URLSearchParams(req.nextUrl.search);

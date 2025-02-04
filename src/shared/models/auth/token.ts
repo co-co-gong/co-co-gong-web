@@ -2,7 +2,7 @@
 
 import type { TokenDTO } from "@/shared/api/auth";
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/shared/constants/storage";
-import { getCookie, removeCookie, setCookie } from "@/shared/lib/serverCookies";
+import { getCookie, removeCookie, setCookie } from "@/shared/lib";
 
 export const getServerAccessToken = async () => await getCookie(ACCESS_TOKEN_KEY);
 export const getServerRefreshToken = async () => await getCookie(REFRESH_TOKEN_KEY);
