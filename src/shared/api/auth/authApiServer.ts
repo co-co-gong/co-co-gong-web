@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 import { SERVER_AUTH_ERROR } from "@/shared/constants/auth";
 import { getSearchParams } from "@/shared/lib";
-import { getServerAccessToken, getServerRefreshToken, getServerTokens } from "@/shared/lib/auth";
+import { getServerAccessToken, getServerRefreshToken, getServerTokens } from "@/shared/models/auth";
 
 import { BaseServerApi } from "../baseServerApi";
 

@@ -1,10 +1,12 @@
+import type { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
+
 import type { TokenDTO } from "@/shared/api/auth";
 
 interface DefaultGetOptions {
   params?: Record<string, string>;
   tags?: string[];
   _tokens?: TokenDTO;
-  headers?: HeadersInit;
+  headers?: HeadersInit | ReadonlyHeaders;
 }
 
 interface RevalidateWithNoStore extends DefaultGetOptions {
@@ -30,7 +32,7 @@ export interface RevalidatePathOptions {
 export interface MutateOptions {
   params?: Record<string, string>;
   body?: unknown;
-  headers?: HeadersInit;
+  headers?: HeadersInit | ReadonlyHeaders;
   _tokens?: TokenDTO;
   revalidateTags?: string[];
   revalidatePath?: RevalidatePathOptions[];

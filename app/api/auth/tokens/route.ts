@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import type { TokenDTO } from "@/shared/api/auth";
-import { getServerTokens, removeServerTokens, setServerTokens } from "@/shared/lib/auth";
+import { getServerTokens, removeServerTokens, setServerTokens } from "@/shared/models/auth";
 
 export async function GET() {
   const { accessToken, refreshToken } = await getServerTokens();
