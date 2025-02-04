@@ -1,4 +1,4 @@
 export * from "./searchParams";
 export * from "./fetch";
-export * from "./cookies";
+export * from "./serverCookies";
 export { PromiseHolder } from "./promiseHolder";

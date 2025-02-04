@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 import { SERVER_AUTH_ERROR } from "@/shared/constants/auth";
 import { getSearchParams } from "@/shared/lib";
-import { getAccessToken, getRefreshToken, getTokens } from "@/shared/lib/auth";
+import { getServerAccessToken, getServerRefreshToken, getServerTokens } from "@/shared/lib/auth";
 
 import { BaseServerApi } from "../baseServerApi";
 
@@ -29,8 +29,8 @@ class AuthApiServer extends BaseServerApi {
 
   async get<T>(url: string, options?: GetOptions): Promise<T> {
     const params = getSearchParams(options?.params, true);
-    const accessToken = options?._tokens?.accessToken || (await getAccessToken());
-    const refreshToken = options?._tokens?.accessToken || (await getRefreshToken());
+    const accessToken = options?._tokens?.accessToken || (await getServerAccessToken());
+    const refreshToken = options?._tokens?.accessToken || (await getServerRefreshToken());
 
     if (!accessToken || !refreshToken) return SERVER_AUTH_ERROR as T;
 
@@ -49,14 +49,13 @@ class AuthApiServer extends BaseServerApi {
       });
 
       if (!response.ok) throw new Error();
-
       const data = (await response.json()) as T;
       return data;
     } catch {
-      return await this.refreshTokens({ accessToken, refreshToken }, async ({ accessToken, refreshToken }) => {
+      return await this.refreshTokens({ accessToken, refreshToken }, async (tokens) => {
         return await this.get<T>(url, {
           ...(options as GetOptions),
-          _tokens: { accessToken, refreshToken },
+          _tokens: tokens,
         });
       });
     }
@@ -64,7 +63,7 @@ class AuthApiServer extends BaseServerApi {
 
   async mutate<T>(method: string, url: string, options?: MutateOptions): Promise<T> {
     const params = getSearchParams(options?.params, true);
-    const { accessToken, refreshToken } = await getTokens();
+    const { accessToken, refreshToken } = await getServerTokens();
 
     if (!accessToken || !refreshToken) return SERVER_AUTH_ERROR as T;
 
@@ -100,17 +99,21 @@ class AuthApiServer extends BaseServerApi {
     tokens: Partial<TokenDTO>,
     callback: (tokens: TokenDTO) => T | Promise<T>,
   ): Promise<T> {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/auth/refresh`, {
-      method: "POST",
-      body: JSON.stringify(tokens),
-      headers: await headers(),
-    });
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/auth/refresh`, {
+        method: "POST",
+        body: JSON.stringify(tokens),
+        headers: await headers(),
+      });
 
-    if (response.ok) {
-      const { accessToken, refreshToken } = (await response.json()) as TokenDTO;
-      return await callback({ accessToken, refreshToken });
+      if (!response.ok) throw new Error();
+
+      const newTokens = (await response.json()) as TokenDTO;
+      const result = await callback(newTokens);
+      return result;
+    } catch {
+      return SERVER_AUTH_ERROR as T;
     }
-    return SERVER_AUTH_ERROR as T;
   }
 }
 
