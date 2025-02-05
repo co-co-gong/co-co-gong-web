@@ -6,7 +6,7 @@ import assert from "assert";
 import cx from "clsx";
 import { useWindowSize } from "react-use";
 
-import styles from "./dvhHeightLayout.module.scss";
+import styles from "./DvhHeightLayout.module.scss";
 
 type HeightType = Extract<keyof CSSStyleDeclaration, "height" | "minHeight" | "maxHeight">;
 
