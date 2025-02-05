@@ -1,3 +1,1 @@
-import { GithubCallbackPage } from "@/views/auth/ui";
-
-export default GithubCallbackPage;
+export { GithubCallbackPage as default } from "@/views/auth/ui";

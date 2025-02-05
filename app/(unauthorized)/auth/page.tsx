@@ -1,3 +1,1 @@
-import { LoginPage } from "@/views/auth/ui";
-
-export default LoginPage;
+export { LoginPage as default } from "@/views/auth/ui";

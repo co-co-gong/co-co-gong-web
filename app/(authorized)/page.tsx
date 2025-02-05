@@ -1,21 +1,3 @@
-import { getMeApi } from "@/entities/user/api";
+// import { HomePage } from "@/views/home/ui";
 
-import { SSRSafeSuspense } from "@/shared/ui/SSRSafeSuspense";
-
-import Test from "app/(authorized)/test";
-
-const Home: React.FC = async () => {
-  const { data } = await getMeApi();
-
-  return (
-    <>
-      SERVER GET ME: {data.email} {data.username}
-      <br />
-      <SSRSafeSuspense fallback={<div>Loading...</div>}>
-        <Test />
-      </SSRSafeSuspense>
-    </>
-  );
-};
-
-export default Home;
+export { HomePage as default } from "@/views/home/ui";
