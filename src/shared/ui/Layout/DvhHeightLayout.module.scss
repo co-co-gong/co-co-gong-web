@@ -14,7 +14,7 @@
     }
   }
 
-  &.min-height {
+  &.minHeight {
     min-height: calc(var(--dvh) * 1vh);
 
     @supports (min-height: 100dvh) {
@@ -22,7 +22,7 @@
     }
   }
 
-  &.max-height {
+  &.maxHeight {
     max-height: calc(var(--dvh) * 1vh);
 
     @supports (min-height: 100dvh) {

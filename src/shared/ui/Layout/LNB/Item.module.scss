@@ -1,0 +1,41 @@
+@use "@/shared/ui/styles/constants" as c;
+@use "@/shared/ui/styles/mixins" as m;
+
+.wrapper {
+  @include m.flex(flex-start);
+  position: relative;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 20px;
+  color: var(--c-ui-gray-95);
+  white-space: nowrap;
+
+  .icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  &.isActive {
+    background-color: var(--c-ui-gray-20);
+
+    &::before {
+      @include m.absolute(50% auto auto 0);
+      width: 4px;
+      height: 100%;
+      content: "";
+      background-color: var(--c-ui-gray-85);
+      border-radius: 0 4px 4px 0;
+      transform: translateY(-50%);
+    }
+  }
+
+  .children {
+    @include m.fontHeading3("bold");
+    color: var(--c-ui-gray-95);
+    transition: color 0.3s ease-in-out;
+
+    &.isFolded {
+      color: transparent;
+    }
+  }
+}

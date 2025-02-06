@@ -1,0 +1,19 @@
+@use "@/shared/ui/styles/constants" as c;
+@use "@/shared/ui/styles/mixins" as m;
+
+$BASE_CONTENT_PADDING: 40px;
+
+.wrapper {
+  width: 100%;
+
+  .contentWrapper {
+    width: 100%;
+    padding: calc(c.$S_GNB_HEIGHT + $BASE_CONTENT_PADDING) $BASE_CONTENT_PADDING $BASE_CONTENT_PADDING
+      calc(c.$S_LNB_WIDTH + $BASE_CONTENT_PADDING);
+    transition: padding 0.3s ease-in-out;
+
+    &.isFolded {
+      padding-left: calc(c.$S_LNB_FOLDED_WIDTH + $BASE_CONTENT_PADDING);
+    }
+  }
+}
