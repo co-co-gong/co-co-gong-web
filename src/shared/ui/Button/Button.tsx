@@ -4,7 +4,7 @@ import type { ComponentProps } from "react";
 
 import cx from "clsx";
 
-import Interaction from "@/shared/ui/Interaction";
+import Interaction from "@/shared/ui/Interaction/Interaction";
 
 import styles from "./Button.module.scss";
 
@@ -20,7 +20,7 @@ const Button: React.FC<Props> = ({ buttonType, type, className, children, disabl
   return (
     <button type={type} className={cx(styles.wrapper, styles[buttonType], className)} disabled={disabled} {...props}>
       {children}
-      <Interaction variant="normal" disabled={disabled} />
+      <Interaction variant="normal" disabled={disabled} backgroundColor="--c-dark-dark-20" />
     </button>
   );
 };

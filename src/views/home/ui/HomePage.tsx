@@ -1,13 +1,12 @@
-import GNB from "@/shared/ui/Layout/GNB";
+import { BaseLayout } from "@/shared/ui/Layout";
 
 import styles from "./HomePage.module.scss";
 
 const HomePage: React.FC = () => {
   return (
-    <>
-      <GNB />
-      <main className={styles.wrapper}>HOME PAGE</main>;
-    </>
+    <BaseLayout hasGNB hasLNB>
+      <main className={styles.wrapper}>Home Page</main>
+    </BaseLayout>
   );
 };
 
