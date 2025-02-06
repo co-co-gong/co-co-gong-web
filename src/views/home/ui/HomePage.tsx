@@ -1,7 +1,14 @@
+import GNB from "@/shared/ui/Layout/GNB";
+
 import styles from "./HomePage.module.scss";
 
 const HomePage: React.FC = () => {
-  return <main className={styles.wrapper}>HOME PAGE</main>;
+  return (
+    <>
+      <GNB />
+      <main className={styles.wrapper}>HOME PAGE</main>;
+    </>
+  );
 };
 
 export default HomePage;
