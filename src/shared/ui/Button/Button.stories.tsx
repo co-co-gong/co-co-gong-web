@@ -6,8 +6,19 @@ const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
     buttonType: {
-      options: ["primary", "secondary", "outlined", "text"],
+      name: "ButtonType",
+      description: "button 형태",
+      type: {
+        name: "enum",
+        value: ["primary", "secondary", "outlined", "text"],
+        required: true,
+      },
       control: { type: "select" },
+    },
+    children: {
+      name: "Children",
+      description: "버튼 내용",
+      control: { type: "text" },
     },
   },
   args: {
