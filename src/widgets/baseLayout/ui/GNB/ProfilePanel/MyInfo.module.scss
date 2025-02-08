@@ -1,0 +1,22 @@
+@use "@/shared/ui/styles/constants" as c;
+@use "@/shared/ui/styles/mixins" as m;
+
+.wrapper {
+  @include m.flex(flex-start, flex-start, column);
+  gap: 4px;
+  width: 100%;
+
+  .name {
+    @include m.fontBody1("bold");
+    @include m.makeEllipsis;
+    width: 100%;
+    color: var(--c-ui-gray-90);
+  }
+
+  .email {
+    @include m.fontCaption("regular");
+    @include m.makeEllipsis;
+    width: 100%;
+    color: var(--c-ui-gray-60);
+  }
+}

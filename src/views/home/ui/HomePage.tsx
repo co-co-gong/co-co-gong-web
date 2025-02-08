@@ -1,4 +1,4 @@
-import { BaseLayout } from "@/shared/ui/Layout";
+import { BaseLayout } from "@/widgets/baseLayout/ui";
 
 import styles from "./HomePage.module.scss";
 

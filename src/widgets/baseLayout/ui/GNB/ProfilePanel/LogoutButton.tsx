@@ -4,25 +4,30 @@ import { useTransition } from "react";
 
 import { useRouter } from "next/navigation";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 import { removeTokensApi } from "@/shared/api/auth";
-import { Button } from "@/shared/ui/Button";
+
+import BaseItem from "./BaseItem";
+import { IconLogout } from "public/icons/layout";
 
 const LogoutButton: React.FC = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isPending, startTransition] = useTransition();
 
-  // TODO: me 관련 훅
   const onClickLogout = () => {
     startTransition(async () => {
       await removeTokensApi();
+      queryClient.clear();
       router.push("/");
     });
   };
 
   return (
-    <Button buttonType="text" type="button" onClick={onClickLogout} disabled={isPending}>
+    <BaseItem icon={<IconLogout />} onClick={onClickLogout} disabled={isPending}>
       로그아웃
-    </Button>
+    </BaseItem>
   );
 };
 

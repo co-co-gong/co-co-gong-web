@@ -1,0 +1,9 @@
+@use "@/shared/ui/styles/constants" as c;
+@use "@/shared/ui/styles/mixins" as m;
+
+.wrapper {
+  @include m.flex;
+  position: relative;
+  color: var(--c-ui-white);
+  border-radius: 50%;
+}

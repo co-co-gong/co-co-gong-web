@@ -1,6 +1,7 @@
 @use "sass:list";
 @use "sass:meta";
 @use "sass:math";
+@use "sass:string";
 
 // Positioning
 @function _unpack-shorthand($shorthand) {
@@ -18,7 +19,7 @@
 @function _is-length($value) {
   @return meta.type-of($value) != "null" and
     (
-      slice($value + "", 1, 4) == "calc" or list.index(auto inherit initial 0, $value) or
+      string.slice($value + "", 1, 4) == "calc" or list.index(auto inherit initial 0, $value) or
         (meta.type-of($value) == "number" and not(math.is-unitless($value)))
     );
 }

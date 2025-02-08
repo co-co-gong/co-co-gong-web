@@ -142,11 +142,11 @@ const eslintConfig = [
             },
             {
               target: "./src/entities",
-              from: ["./src/app", "./src/views", "./src/widgets"],
+              from: ["./src/app", "./src/views", "./src/widgets", "./src/features"],
             },
             {
               target: "./src/shared",
-              from: ["./src/app", "./src/views", "./src/widgets"],
+              from: ["./src/app", "./src/views", "./src/widgets", "./src/features", "./src/entities"],
             },
           ],
         },

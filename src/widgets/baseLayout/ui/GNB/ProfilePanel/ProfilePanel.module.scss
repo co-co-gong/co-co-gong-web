@@ -1,0 +1,20 @@
+@use "@/shared/ui/styles/constants" as c;
+@use "@/shared/ui/styles/mixins" as m;
+
+$PROFILE_PANEL_WIDTH: 240px;
+
+.wrapper {
+  @include m.absolute(calc(100% + 8px) 0 auto auto);
+  width: $PROFILE_PANEL_WIDTH;
+  padding: 16px;
+  background-color: var(--c-dark-dark-40);
+  border: 1px solid var(--c-ui-gray-20);
+  border-radius: 12px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 25%);
+
+  > hr {
+    margin: 8px 0;
+    border: 0;
+    border-top: 1px solid var(--c-ui-gray-25);
+  }
+}
