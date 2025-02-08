@@ -1,7 +1,7 @@
 import { getTokensApi, refreshApi, removeTokensApi, setTokensApi } from "@/shared/api/auth/auth.route-handler";
 import { UNAUTHORIZED_STATUS } from "@/shared/constants/auth";
 
-import { apiClient, isKyHTTPError } from "../apiClient";
+import { apiClient } from "../apiClient";
 
 export const authApiClient = apiClient.extend({
   hooks: {
@@ -12,27 +12,21 @@ export const authApiClient = apiClient.extend({
         return request;
       },
     ],
-    beforeError: [
-      async (error) => {
-        if (!isKyHTTPError(error)) return error;
-        const { status } = error.response;
-        if (status !== UNAUTHORIZED_STATUS) return error;
-
+    beforeRetry: [
+      async ({ request }) => {
         try {
           const { accessToken, refreshToken } = await getTokensApi();
           if (!accessToken || !refreshToken) throw new Error();
-
           const newTokens = await refreshApi({ accessToken, refreshToken });
-
           await setTokensApi(newTokens);
-          error.request.headers.set("Authorization", `Bearer ${newTokens.accessToken}`);
-          void (await authApiClient(error.request));
+          request.headers.set("Authorization", `Bearer ${newTokens.accessToken}`);
         } catch {
           await removeTokensApi();
         }
-
-        return error;
       },
     ],
+  },
+  retry: {
+    statusCodes: [UNAUTHORIZED_STATUS],
   },
 });
