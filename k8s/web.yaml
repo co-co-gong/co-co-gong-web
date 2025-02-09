@@ -17,22 +17,22 @@ spec:
           image: ghcr.io/co-co-gong/co-co-gong-web:4a4404e1b776a9e2907cd7ca6258da549bec0e3e
           volumeMounts:
             - name: env-volume
-              mountPath: /app/env.production
-              subPath: env.production
+              mountPath: /app/.env.production
+              subPath: .env.production
       volumes:
         - name: env-volume
           configMap:
             name: web-env
             items:
-              - key: env.production
-                path: env.production
+              - key: .env.production
+                path: .env.production
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: web-env
 data:
-  env.production: |
+  .env.production: |
     NEXT_PUBLIC_API_URL = http://server:8080
     NEXT_PUBLIC_BASE_API_URL = https://co-co-gong.zerohertz.xyz
 ---
