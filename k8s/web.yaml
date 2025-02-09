@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: ghcr.io/co-co-gong/co-co-gong-web:TAG
+          image: ghcr.io/co-co-gong/co-co-gong-web:e2b0ee73cb58b8065a369eb498a01708177b6ea6
           volumeMounts:
             - name: env-volume
               mountPath: /app

@@ -27,8 +27,8 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/${{ secrets.GH_USERNAME }}/co-co-gong-server:latest,
-            ghcr.io/${{ secrets.GH_USERNAME }}/co-co-gong-server:${{ github.sha }}
+            ghcr.io/${{ secrets.GH_USERNAME }}/co-co-gong-web:latest,
+            ghcr.io/${{ secrets.GH_USERNAME }}/co-co-gong-web:${{ github.sha }}
 
   cd:
     name: Argo CD
