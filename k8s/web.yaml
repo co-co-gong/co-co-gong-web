@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/co-co-gong/co-co-gong-web:TAG
+          volumeMounts:
+            - name: env-volume
+              mountPath: /app
+      volumes:
+        - name: env-volume
+          configMap:
+            name: web-env
+            items:
+              - key: env.production
+                path: env.production
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-env
+data:
+  env.production: |
+    NEXT_PUBLIC_API_URL = http://server:8080
+    NEXT_PUBLIC_BASE_API_URL = https://co-co-gong.zerohertz.xyz
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  ports:
+    - port: 3000
+  selector:
+    app: web
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: co-co-gong-web
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`co-co-gong.zerohertz.xyz`)
+      kind: Rule
+      services:
+        - name: web
+          port: 3000
+  tls:
+    certResolver: zerohertz-resolver
