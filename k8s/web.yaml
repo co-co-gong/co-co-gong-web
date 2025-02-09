@@ -17,7 +17,8 @@ spec:
           image: ghcr.io/co-co-gong/co-co-gong-web:4a4404e1b776a9e2907cd7ca6258da549bec0e3e
           volumeMounts:
             - name: env-volume
-              mountPath: /app
+              mountPath: /app/env.production
+              subPath: env.production
       volumes:
         - name: env-volume
           configMap:
