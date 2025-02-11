@@ -43,14 +43,16 @@ jobs:
         run: pnpm install
 
       - name: Publish to Chromatic
-        uses: chromaui/action@latest
+        id: chromatic
+        uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Create comment PR
-        uses: thollander/actions-comment-pull-request@v1
+        uses: thollander/actions-comment-pull-request@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          message: "🚀storybook: ${{ steps.chromatic.outputs.storybookUrl }}"
+          message: |
+            🚀 Storybook preview: ${{ steps.chromatic.outputs.storybookUrl }}
