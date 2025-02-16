@@ -43,12 +43,9 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Run Jest tests
-        run: pnpm jest --coverage --coverageReporters=json-summary --coverageReporters=text --coverageReporters=lcov --json --outputFile=report.json
+        run: pnpm test:coverage
 
-      - name: Run coverage report
-        uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          annotations: none
-          coverage-file: report.json
-          threshold: 80
+          token: ${{ secrets.CODECOV_TOKEN }}
