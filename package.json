@@ -13,7 +13,7 @@
     "build-storybook": "storybook build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --ci --coverage --passWithNoTests"
   },
   "dependencies": {
     "@lukemorales/query-key-factory": "^1.3.4",
