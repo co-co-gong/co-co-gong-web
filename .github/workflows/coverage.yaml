@@ -13,11 +13,43 @@ jobs:
       pull-requests: write
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run Jest tests
+        run: pnpm jest --ci --coverage --passWithNoTests
+
       - name: Run coverage report
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          test-script: jest --coverage --coverageReporters=json-summary --coverageReporters=text --coverageReporters=lcov --json --outputFile=report.json
+          test-script: pnpm jest --coverage --coverageReporters=json-summary --coverageReporters=text --coverageReporters=lcov --json --outputFile=report.json
           package-manager: pnpm
           annotations: none
           threshold: 80
