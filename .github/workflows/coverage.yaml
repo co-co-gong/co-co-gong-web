@@ -51,14 +51,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           test-script: pnpm jest --coverage --passWithNoTests
           package-manager: pnpm
-          coverage-file: ./coverage/coverage-final.json
           annotations: none
           threshold: 80
-
-      - name: Upload coverage report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage/
-          retention-days: 14
