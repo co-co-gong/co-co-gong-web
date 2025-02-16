@@ -47,7 +47,4 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           test-script: pnpm test:coverage
           package-manager: pnpm
-          annotations: failed-tests
-          coverage-file: ./coverage/coverage-final.json
-          base-coverage-file: ./coverage/coverage-final.json
           threshold: 80
