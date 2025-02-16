@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       checks: write
-      contents: read
+      contents: write
       pull-requests: write
 
     steps:
@@ -46,6 +46,4 @@ jobs:
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          test-script: pnpm test:coverage
-          package-manager: pnpm
           threshold: 80
