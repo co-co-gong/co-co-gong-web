@@ -1,0 +1,21 @@
+coverage:
+  status:
+    project:
+      default:
+        threshold: 80%
+    patch:
+      default:
+        threshold: 80%
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+  show_carryforward_flags: true
+  after_n_builds: 1
+  hide_project_coverage: false
+
+github_checks:
+  annotations: true
