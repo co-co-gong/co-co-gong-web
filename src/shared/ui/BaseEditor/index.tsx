@@ -1,8 +1,11 @@
 "use client";
 
-import { ComponentProps } from "react";
+import { ComponentProps, useMemo } from "react";
 
 import { Editor } from "@monaco-editor/react";
+
+import { EDITOR_THEMES } from "@/shared/constants/editor";
+import { getLanguageFromFileName } from "@/shared/lib";
 
 type EditorProps = ComponentProps<typeof Editor>;
 
@@ -61,14 +64,20 @@ const options: EditorProps["options"] = {
   wrappingIndent: "none",
 };
 
-interface Props extends EditorProps {}
+export type Theme = (typeof EDITOR_THEMES)[number];
 
-// TODO: 파일 명에 따른 언어 변경 로직
-// TODO: 파일 명에 따른 테마 변경 로직
-// TODO: 테마 변경 로직
+interface Props extends Omit<EditorProps, "language" | "theme"> {
+  theme?: Theme;
+  fileName?: string;
+}
 
-const BaseEditor: React.FC<Props> = (props) => {
-  return <Editor options={options} height={400} width="100%" language="javascript" theme="vs-dark" {...props} />;
+const BaseEditor: React.FC<Props> = ({ fileName, ...props }) => {
+  const detectedLanguage = useMemo(() => {
+    if (fileName) return getLanguageFromFileName(fileName);
+    return "plaintext";
+  }, [fileName]);
+
+  return <Editor options={options} height={400} width="100%" path="" language={detectedLanguage} {...props} />;
 };
 
 export default BaseEditor;
